@@ -450,12 +450,9 @@ function ruler(svg, x, L, x0, x1, quad){
   svg.appendChild(el("text", {x:PL+IW, y:BASE+52, "text-anchor":"end", "font-size":10, fill:"var(--ink-3)", class:"s"},
     "% GC"));
 
-  document.getElementById("cpGCNote").innerHTML =
-    "All " + M.n + " records. The collection spans " + S.gc.min + "% to " + S.gc.max + "% across " + M.nfam
-    + " families, and " + R.filter(function(r){ return r.gc >= 35 && r.gc <= 38; }).length + " fall inside the "
-    + "band. The three dots to its left also have no inverted repeat: two <em class=\"sci\">Hesperocyparis</em> "
-    + "and the <em class=\"sci\">Astragalus</em>. GC is computed from each submitted sequence, so it counts "
-    + "ambiguity codes too.";
+  document.getElementById("cpGCNote").innerHTML = TXT('plastomes.note.gc',
+    {n: M.n, min: S.gc.min, max: S.gc.max, families: M.nfam,
+     inband: R.filter(function(r){ return r.gc >= 35 && r.gc <= 38; }).length});
 })();
 
 }
@@ -497,8 +494,7 @@ function renderGeneLoss(){
   var KNOWN = { rps16:1, accD:1, ycf1:1, infA:1, clpP1:1, rpl22:1, rpl23:1, ycf2:1,
                 ndhA:1, ndhB:1, ndhD:1, ndhE:1, ndhF:1, ndhG:1, ndhH:1, ndhI:1,
                 ndhJ:1, ndhK:1, rps12:1, rpl32:1 };
-  var FLAG = { "trnE-UUC": "absent in every Asteraceae here and nowhere else, which is too clean; "
-                         + "check against the raw output before trusting it" };
+  var FLAG = { "trnE-UUC": TXT('plastomes.flag.trnE-UUC') };
 
   var lost = [], kept = [];
   GEN.forEach(function(g){
@@ -531,7 +527,7 @@ function renderGeneLoss(){
     '<div class="cmphead"><span>gene</span><span style="grid-column:2/-1">where it is missing, by family</span></div>'
     + lost.map(function(o){ return row(o, "absent in"); }).join('')
     + (kept.length ? '<div class="cmphead" style="margin-top:22px"><span>gene</span>'
-        + '<span style="grid-column:2/-1">carried by only a few, and they are the same few</span></div>'
+        + '<span style="grid-column:2/-1">' + TXT('plastomes.label.carried-by-few') + '</span></div>'
         + kept.map(function(o){ return row(o, "present in"); }).join('') : '');
 
   document.getElementById("cpLossFoot").innerHTML =

@@ -101,12 +101,10 @@ function buildOverview(){
   const nCp   = P.filter(p => p.stages[5]).length;
   const nCirc = P.filter(p => (p.cpst||{}).complete).length;
   const nFail = CNT.failed;
-  $('#heroBrow').textContent = `${CNT.total} plants \u00b7 ${CNT.families} families \u00b7 ${CNT.genera} genera`;
-  $('#lede').innerHTML =
-    `<b>${nRare} of these ${CNT.total} plants are ranked rare, threatened or endangered throughout their range</b>, `
-    + `and many are known from a single ridge, meadow or island. All ${CNT.total} were sequenced. `
-    + `${nf(nAsm)} produced a draft genome. ${nf(nCirc)} closed a chloroplast circle and ${nf(nCp)} of those are `
-    + `annotated. Every result is here. Click anything.`;
+  $('#heroBrow').textContent = TXT('overview.eyebrow',
+    {total: CNT.total, families: CNT.families, genera: CNT.genera});
+  $('#lede').innerHTML = TXT('overview.lede', {rare: nf(nRare), total: CNT.total,
+    assembled: nf(nAsm), circles: nf(nCirc), annotated: nf(nCp)});
 
   const stats = [
     [totalGb>=1000 ? (totalGb/1000).toFixed(1)+' Tb' : nf(totalGb)+' Gb', 'raw sequence generated'],
@@ -128,7 +126,8 @@ function buildOverview(){
       <span class="mono" style="font-size:12px">${esc(r)}</span>
       <span class="rb" style="width:${(n/rMax*100).toFixed(1)}%;background:${rankColor(r)}"></span>
       <span class="rn">${n}</span></button>`).join('')
-    + `<p style="font-size:11.5px;color:var(--ink-3);margin:12px 0 0;line-height:1.45">Click a rank to see those plants. ${nRare} of the ${CNT.total} are rank 1B, meaning rare, threatened or endangered throughout their range, not just in California.</p>`;
+    + `<p style="font-size:11.5px;color:var(--ink-3);margin:12px 0 0;line-height:1.45">${
+        TXT('overview.rankchart.caption', {rare: nRare, total: CNT.total})}</p>`;
   $$('#rankChart .rankrow').forEach(b => b.onclick = () => {
     st.rank = b.dataset.r; st.fam=''; st.has=''; st.q=''; st.sel=null;
     $('#fRank').value = st.rank; $('#fFam').value=''; $('#fHas').value=''; $('#q').value='';
@@ -151,9 +150,10 @@ function buildOverview(){
 
   const M2 = (DATA.cp2 && DATA.cp2.meta) || {nProc:0,nSubmitted:0,nWithdrawn:0,nWithGenBank:0,dupCds:0,dupRecords:0};
   $('#pending').innerHTML = [
-    `<b>${CNT.held} plants release on 31 January 2027.</b> Thirty-nine <em>Arctostaphylos</em> plus <em>Castilleja mollis</em>. Counted in every total here; not yet downloadable.`,
-    `<b>${CNT.cpann} plastomes are annotated, every one with a drawn map.</b> ${DATA.cp2 ? DATA.cp2.meta.nq : 0} have all four regions. The five without a repeat are biology, not failure: four conifers and one legume from the repeat-lacking clade. ${CNT.cpwait} closed a circle awaiting annotation.`,
-    `<b>Every number comes from the master spreadsheet</b>, dated ${esc(DATA.built)}. Accessions were reconciled against the NCBI portal record by record. The S3 object counts behind the chemistry and marker downloads have not been.`
+    TXT('overview.note.embargo',   {held: CNT.held}),
+    TXT('overview.note.plastomes', {annotated: CNT.cpann,
+        quad: DATA.cp2 ? DATA.cp2.meta.nq : 0, waiting: CNT.cpwait}),
+    TXT('overview.note.provenance',{dated: esc(DATA.built)})
   ].map(s=>`<li>${s}</li>`).join('');
 }
 
@@ -199,33 +199,33 @@ $('#notesBody').innerHTML = `
 <div class="panels">
   <div class="card panel" style="grid-column:1/-1">
     <h3>Where the data comes from</h3>
-    <p class="note">Where every figure on this atlas comes from.</p>
-    <p style="font-size:13.5px;color:var(--ink-2);line-height:1.6">Per-plant records come from the GBI annotation master spreadsheet, dated ${esc(DATA.built)}. The <span class="mono">RESULTS</span> tab supplies the per-plant record; three matrix tabs supply BUSCO, barcodes and TF families. The barcode matrix also merges 68 genomes searched on the instances but never transcribed. Chemistry, markers and plastomes come from their own analysis payloads. Counts and percentages here are computed from those records. Genome size is a k-mer estimate. A blank cell renders as <em>not run</em>, never as zero.</p>
-    <p style="font-size:13.5px;color:var(--ink-2);line-height:1.6">Chloroplast maps are the project's own GeSeq/Chloë OGDRAW figures. Photographs and range maps come live from Calflora, each carrying its photographer's name on the image.</p>
+    <p class="note">${TXT('notes.caption.where-data-comes-from')}</p>
+    <p style="font-size:13.5px;color:var(--ink-2);line-height:1.6">${TXT('notes.sources.per-plant', {dated: esc(DATA.built)})}</p>
+    <p style="font-size:13.5px;color:var(--ink-2);line-height:1.6">${TXT('notes.sources.images')}</p>
     <p style="font-size:13px;color:var(--ink-3);line-height:1.65;margin-top:12px"><b style="color:var(--ink-2)">Photographs by</b><br>${
       [...new Set(P.flatMap(p=>p.pc||[]).map(c=>c.replace(/^\d{4}\s+/,'').trim()).filter(Boolean))]
         .sort((a,b)=>a.toLowerCase().localeCompare(b.toLowerCase())).map(esc).join(' \u00b7 ')
     }</p>
-    <p style="font-size:12px;color:var(--ink-3);line-height:1.55;margin-top:10px">Reproduced under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">Creative Commons BY-NC 4.0</a>, the licence Calflora applies by default. Images are unmodified except for scaling. A contributor may instead mark a photograph &ldquo;Calflora use only&rdquo;; if one of yours is here and should not be, tell us and it comes down. To reuse an image beyond CC&nbsp;BY-NC, open its Calflora page and contact the photographer.</p>
+    <p style="font-size:12px;color:var(--ink-3);line-height:1.55;margin-top:10px">${TXT('notes.sources.licence')}</p>
   </div>
 </div>
 <div class="panels"><div class="card panel" style="grid-column:1/-1">
   <h3>Where the published comparisons come from</h3>
-  <p class="note">Four places set these figures beside published ones. Here are the sources, and what each is counting.</p>
+  <p class="note">${TXT('notes.caption.comparisons')}</p>
   <div class="tblwrap"><table class="wrapcells"><thead><tr><th>Comparison</th><th>Source</th><th>What it counts</th></tr></thead><tbody>
     <tr><td>Regulator families</td><td class="mono"><a href="https://planttfdb.gao-lab.org/" target="_blank" rel="noopener">PlantTFDB v5.0</a></td>
-        <td>Curated transcription factors in <em>Arabidopsis thaliana</em> (${RF('tf.arabidopsis').label}) and <em>Vitis vinifera</em> (${RF('tf.grape').label}), both classified into 58 families. Ours are iTAK predictions over draft proteins, so the two count different objects and a handful of families are drawn differently by the two tools.</td></tr>
+        <td>${TXT('notes.compare.regulators', {ath: RF('tf.arabidopsis').label, vvi: RF('tf.grape').label})}</td></tr>
     <tr><td>Medicinal enzyme families</td><td class="mono"><a href="https://doi.org/10.1104/pp.104.039826" target="_blank" rel="noopener">Nelson 2004</a>, <a href="https://doi.org/10.1186/gb-2001-2-2-reviews3004" target="_blank" rel="noopener">Ross 2001</a>, <a href="https://doi.org/10.1093/gbe/evz142" target="_blank" rel="noopener">Jiang 2019</a></td>
-        <td>${nf(RF('chem.p450').n)} P450 genes and ${nf(RF('chem.ugt').n)} family-1 glycosyltransferases in <em>Arabidopsis thaliana</em>; ${RF('chem.tps').label}. Those are gene counts from finished curated genomes, set against protein counts from drafts. The two are on a similar scale but are not counting the same thing. BAHD acyltransferases have no single agreed figure, so that row shows no published bar.</td></tr>
+        <td>${TXT('notes.compare.enzymes', {p450: nf(RF('chem.p450').n), ugt: nf(RF('chem.ugt').n), tps: RF('chem.tps').label})}</td></tr>
     <tr><td>Microsatellites</td><td class="mono">published genome-wide SSR survey</td>
-        <td>Mononucleotide runs removed from both sides so the two are counting the same class of repeat.</td></tr>
+        <td>${TXT('notes.compare.microsatellites')}</td></tr>
     <tr><td>Published corpus</td><td class="mono"><a href="https://ngdc.cncb.ac.cn/cgir/" target="_blank" rel="noopener">CGIR</a>, <a href="https://rareplants.cnps.org/search?mode=results&amp;form=advanced&amp;crpr=1B" target="_blank" rel="noopener">CNPS RPI</a></td>
-        <td>Species with a chloroplast genome (${nf(RF('corpus.cgir').n)} species, retrieved ${longDate(RF('corpus.cgir').got)}) and California taxa at rare plant rank 1B. The 1B totals are counted from the CNPS Rare Plant Inventory itself, retrieved ${longDate(RF('corpus.cnps.1B').got)}: ${nf(RF('corpus.cnps.1B').n)} taxa at 1B, of which ${nf(RF('corpus.cnps.1B.1').n)} are 1B.1, ${nf(RF('corpus.cnps.1B.2').n)} are 1B.2 and ${nf(RF('corpus.cnps.1B.3').n)} are 1B.3. The CNPS ranks page quotes only "more than 1,000", which is why the Inventory was counted directly.</td></tr>
+        <td>${TXT('notes.compare.corpus', {cgir: nf(RF('corpus.cgir').n), cgirDate: longDate(RF('corpus.cgir').got), cnpsDate: longDate(RF('corpus.cnps.1B').got), oneB: nf(RF('corpus.cnps.1B').n), b1: nf(RF('corpus.cnps.1B.1').n), b2: nf(RF('corpus.cnps.1B.2').n), b3: nf(RF('corpus.cnps.1B.3').n)})}</td></tr>
   </tbody></table></div>
 </div></div>
 <div class="panels"><div class="card panel" style="grid-column:1/-1">
   <h3>Pipeline &amp; software</h3>
-  <p class="note">The tools behind each stage, in the order they ran.</p>
+  <p class="note">${TXT('notes.caption.pipeline')}</p>
   <div class="tblwrap"><table>
     <thead><tr><th>Stage</th><th>Software</th><th>What it produces</th><th>Plants</th></tr></thead>
     <tbody>
@@ -235,19 +235,19 @@ $('#notesBody').innerHTML = `
       <tr><td>3d · Completeness</td><td class="mono">BUSCO (viridiplantae, eukaryota odb10)</td><td>Per-gene completeness scores</td><td class="num">${P.filter(p=>p.stages[3]).length}</td></tr>
       <tr><td>4 · Annotation</td><td class="mono">RepeatMasker, TransDecoder, OrthoFinder, iTAK</td><td>Masked repeats, ORFs, orthogroups, transcription-factor families</td><td class="num">${P.filter(p=>p.stages[4]).length}</td></tr>
       <tr><td>5 · Plastid</td><td class="mono">GetOrganelle, GeSeq / Chloë</td><td>Complete chloroplast genome and annotation</td><td class="num">${P.filter(p=>p.stages[5]).length}</td></tr>
-      <tr><td>6 · Chemistry scan</td><td class="mono">HMMER hmmsearch, Pfam-A</td><td>Copy counts for ten enzyme families in the predicted proteome</td><td class="num">${DATA.chem ? DATA.chem.rows.length : 0}</td></tr>
-      <tr><td>7 · Marker scan</td><td class="mono">MISA-convention SSR search, Primer3-style design</td><td>Microsatellites, primer pairs, and a ranked 30-marker shortlist per plant</td><td class="num">${DATA.ssr ? DATA.ssr.tot.plants : 0}</td></tr>
+      <tr><td>6 · Chemistry scan</td><td class="mono">HMMER hmmsearch, Pfam-A</td><td>${TXT('notes.pipeline.chem')}</td><td class="num">${DATA.chem ? DATA.chem.rows.length : 0}</td></tr>
+      <tr><td>7 · Marker scan</td><td class="mono">MISA-convention SSR search, Primer3-style design</td><td>${TXT('notes.pipeline.markers')}</td><td class="num">${DATA.ssr ? DATA.ssr.tot.plants : 0}</td></tr>
     </tbody></table></div>
 </div></div>
 <div class="panels"><div class="card panel" style="grid-column:1/-1">
   <h3>Reading these numbers honestly</h3>
   <ul class="pending">
-    <li><b>These are draft, short-read assemblies.</b> N50 in the tens of kilobases is normal for this approach; it is not a finished chromosome-scale genome, and the BUSCO matrix shows exactly where that costs you.</li>
-    <li><b>Gene and TF counts scale with assembly quality.</b> More predicted ORFs may just mean a more contiguous assembly. Compare within a genus first.</li>
-    <li><b>Barcode primer hits are exact sequence matches</b> in the assembly, not wet-lab amplification results. A miss can mean the region is absent from the draft rather than absent from the plant.</li>
-    <li><b>Enzyme family counts are protein counts, not gene counts.</b> They come from HMM matches against predicted proteins in a draft, so one gene can be counted twice and a deeper annotation finds more of everything. Carrying the genes is not the same as making the compound.</li>
-    <li><b>Marker primers are designed, not tested.</b> Each pair is screened for melting temperature and product size against the assembly. None has been run at a bench, which is why 30 are proposed per plant rather than 15.</li>
-    <li><b>Plastome sizes are measured; nuclear sizes are estimates.</b> Plastome length is read off the closed circle. Nuclear genome size is a k-mer model, and assembly length usually falls short of it.</li>
+    <li>${TXT('notes.honestly.draft-short-read')}</li>
+    <li>${TXT('notes.honestly.counts-scale')}</li>
+    <li>${TXT('notes.honestly.barcode-matches')}</li>
+    <li>${TXT('notes.honestly.enzyme-proteins')}</li>
+    <li>${TXT('notes.honestly.primers-designed')}</li>
+    <li>${TXT('notes.honestly.measured-vs-estimated')}</li>
   </ul>
 </div></div>`;
 
@@ -332,8 +332,9 @@ function renderCorpus(){
       + '<span class="cvv">' + nf(c.n) + '</span></span></div>'
       + '<div class="crow" style="border:0;padding-top:0"><span></span><span></span>'
       + '<span style="font-size:11.5px;color:var(--ink-3)">'
-      + (c.floor ? '~' : '') + pct.toFixed(1)
-      + '% of that number, as ' + esc(c.ourWhat) + '</span></div>';
+      + TXT('overview.corpus.share',
+             {pct: (c.floor ? '~' : '') + pct.toFixed(1), what: esc(c.ourWhat)})
+      + '</span></div>';
   };
 
   // The threat suffix split. Both sides are drawn on the parent's denominator so
@@ -350,7 +351,8 @@ function renderCorpus(){
     + '<span class="cvv">' + nf(n) + '</span></span></div>'
     + '<div class="crow csub" style="border:0;padding-top:0"><span></span><span></span>'
     + '<span style="font-size:11.5px;color:var(--ink-3)">'
-    + (100 * n / pubN).toFixed(1) + '% of the ' + nf(pubN) + ' at that rank</span></div>';
+    + TXT('overview.corpus.suffix-share',
+           {pct: (100 * n / pubN).toFixed(1), total: nf(pubN)}) + '</span></div>';
 
   const SUF = [
     ['1B.1', R('corpus.cnps.1B.1').label, R('corpus.cnps.1B.1').n],
@@ -359,8 +361,10 @@ function renderCorpus(){
   const caSubs = SUF.map(([lab, note, pubN]) =>
     sub(lab, note, taxa(p => p.cnps === lab), pubN, ca.pubN)).join('')
     + '<div class="crow csub" style="border:0;padding-top:0"><span></span><span></span>'
-    + '<span style="font-size:11.5px;color:var(--ink-3)">the other '
-    + taxa(p => p.cnps === '1B.3') + ' here are 1B.3, ' + R('corpus.cnps.1B.3').label + ', of ' + nf(R('corpus.cnps.1B.3').n) + ' statewide</span></div>';
+    + '<span style="font-size:11.5px;color:var(--ink-3)">'
+    + TXT('overview.corpus.remainder', {n: taxa(p => p.cnps === '1B.3'),
+          label: R('corpus.cnps.1B.3').label, statewide: nf(R('corpus.cnps.1B.3').n)})
+    + '</span></div>';
 
   $('#corpus').innerHTML =
     '<div class="cmphead"><span></span><span>already published</span><span>this collection</span></div>'

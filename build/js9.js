@@ -77,7 +77,7 @@ function renderBuscoCard(){
     const c = {C:0,D:0,F:0,M:0,'.':0}; st.forEach(x => c[x] = (c[x]||0)+1);
     const n = genes.length, pct = v => n ? (100*v/n).toFixed(1)+'%' : 'n/a';
     $('#bupName').textContent = p.name;
-    $('#bupMeta').textContent = `${bup.set} odb10 · ${nf(n)} single-copy genes expected in every plant genome`;
+    $('#bupMeta').textContent = TXT('busco.meta.lineage', {set: bup.set, n: nf(n)});
     $('#bupStats').innerHTML =
       statTile('Complete', pct(c.C+c.D), `${nf(c.C+c.D)} of ${nf(n)} recovered`) +
       statTile('Duplicated', pct(c.D), `${nf(c.D)} found more than once`) +
@@ -96,22 +96,18 @@ function renderBuscoCard(){
     // on its own tells nobody anything
     bupCells = genes.map((g,i)=>({ g, s:st[i] }));
     $('#bupBody').innerHTML =
-      '<div class="lab">every expected gene, one cell; hover for the gene</div>' +
+      '<div class="lab">' + TXT('busco.label.every-gene') + '</div>' +
       `<div class="bucells" id="bupGrid">${genes.map((g,i)=>`<i class="q${st[i]==='.'?'N':st[i]}" data-i="${i}"></i>`).join('')}</div>` +
       `<div class="bulegend"><span><i class="qC"></i>Complete</span><span><i class="qD"></i>Duplicated</span><span><i class="qF"></i>Fragmented</span><span><i class="qM"></i>Missing</span></div>` +
-      (rare.length ? `<div class="lab" style="margin-top:22px">missed here, recovered by at least half the rest (${rare.length}${c.M>rare.length?' of '+c.M+' misses':''})</div>` +
+      (rare.length ? `<div class="lab" style="margin-top:22px">${TXT('busco.label.missed-here', {n: rare.length, of: c.M>rare.length ? ' of '+c.M+' misses' : ''})}</div>` +
         '<div class="misslist">' + rare.map(r =>
           `<a class="missrow" href="${r.u||'#'}" target="_blank" rel="noopener">
             <span class="mgn">${esc(r.d || r.g)}<small class="mono">${esc(r.g)}</small></span>
             <span class="mbar"><i style="width:${(100*r.share).toFixed(1)}%"></i></span>
             <span class="mpc">${Math.round(100*r.share)}%</span></a>`).join('') +
-        '</div><p class="foot" style="margin:12px 0 0">The percentage is how many other assemblies recovered '+
-        'that gene complete. Names are OrthoDB\u2019s; each row links to its OrthoDB entry.</p>' : (c.M ? '<p class="foot" style="margin-top:20px">All ' + c.M + ' genes this assembly '+
+        '</div><p class="foot" style="margin:12px 0 0">' + TXT('busco.foot.percentage') + '</p>' : (c.M ? '<p class="foot" style="margin-top:20px">All ' + c.M + ' genes this assembly '+
           'missed are ones most other assemblies also miss, so nothing here is a gap unique to this draft.</p>' : ''));
-    $('#bupLim').innerHTML = 'A missing gene means it was not found <b>in this assembly</b>, not that the plant '+
-      'lacks it. These are draft short-read assemblies and BUSCO completeness tracks contiguity closely, so this '+
-      'card reads as an assembly scorecard rather than as biology. The list at the bottom is the useful part: a '+
-      'gene that almost every other assembly recovered and this one did not is a gap in this draft.';
+    $('#bupLim').innerHTML = TXT('busco.note.per-plant');
   }
   draw(sel.value); sel.onchange = () => draw(sel.value);
   // delegated so it survives every redraw of the grid

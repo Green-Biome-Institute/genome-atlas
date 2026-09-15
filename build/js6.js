@@ -187,8 +187,8 @@ function renderPlastomes(){
     ['Genes per plastome', Math.min(...gs)+'–'+Math.max(...gs)],
   ].map(([k,v])=>`<div class="rowitem"><span class="nm">${esc(k)}</span><span class="vv">${esc(String(v))}</span></div>`).join('')
    + (pl.mode==='ring'
-      ? `<p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.45">Every ring is rotated to the same origin, the start of the large single-copy region, so they compare to each other rather than to an arbitrary start. Outer band is the forward strand, inner the reverse. Dark arcs are the two inverted repeats. Green genes are the four barcode loci the barcode tab searches for. Drawn for the ${P.filter(x=>x.ring).length} records whose per-gene coordinates were parsed.</p>`
-      : `<p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.45">The GeSeq/Chlo\u00eb OGDRAW figures as rendered, one per record. Click any plate to open that plant. Switch to <b>schematic rings</b> for the same set redrawn to a common origin, better for comparing structure than reading gene names.</p>`)
+      ? `<p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.45">${TXT('plastomes.caption.ring-mode', {drawn: P.filter(x=>x.ring).length})}</p>`
+      : `<p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.45">${TXT('plastomes.caption.map-mode')}</p>`)
 }
 
 /* ================= THE COLLECTION ================= */
@@ -213,7 +213,7 @@ function renderCollection(){
   host.innerHTML = `
    <div class="card panel collcard">
      <h4>The people who collected these plants</h4>
-     <p class="sub">Every genome here began as tissue somebody went and got. ${colls.reduce((t,c)=>t+c[1].length,0)} of the ${P.length} plants have a named contributor on record.</p>
+     <p class="sub">${TXT('collection.caption.intro', {named: colls.reduce((t,c)=>t+c[1].length,0), total: P.length})}</p>
      <div class="credits">${colls.map(([who,list]) => `
        <button class="credit-card" ${jump(who)}>
          <span class="cnum">${list.length}</span>
@@ -236,9 +236,9 @@ function renderCollection(){
    <div class="card panel collcard">
      <h4>What is deliberately not here</h4>
      <ul class="tight">
-       <li><b>No email addresses.</b> The spreadsheet stores contributors as name and email together; only the name is carried through.</li>
-       <li><b>No site coordinates.</b> Two rows record precise collection coordinates. These are endangered plants, and a precise locality is a collection risk, so localities are shown no finer than a named place and county.</li>
-       <li><b>Abbreviations are expanded on a best reading</b> of the sheet. Worth a check by someone who knows the collections.</li>
+       <li>${TXT('collection.note.no-emails')}</li>
+       <li>${TXT('collection.note.no-coordinates')}</li>
+       <li>${TXT('collection.note.abbreviations')}</li>
      </ul>
    </div>`;
   $('#ctColl').textContent = colls.length;
