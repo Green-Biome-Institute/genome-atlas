@@ -5,7 +5,7 @@ California plant genomes. This repository holds everything needed to rebuild
 and republish it. Nothing else is required: no server, no Google account, no
 software on anyone's computer.
 
-Live page: https://ORG.github.io/genome-atlas/
+Live page: https://green-biome-institute.github.io/genome-atlas/
 
 
 ## How to change something
