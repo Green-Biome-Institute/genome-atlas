@@ -34,6 +34,15 @@ COPY = B.get('copy', {})
 
 bundle = json.dumps(B, separators=(',',':'))
 cp = {}
+# A partial upload of the plate folder used to build cleanly and publish an atlas
+# with no chloroplast figures at all: a green tick over a broken page. Refuse
+# instead. Pass 'none' as the directory if a plate-less build is ever wanted.
+if DIR != 'none' and not glob.glob(DIR + '/*.webp'):
+    raise SystemExit(
+        f'NO PLATE IMAGES FOUND in "{DIR}/".\n'
+        f'The atlas expects 182 .webp files there, one per plant.\n'
+        f'If you uploaded them in batches, one of the batches did not land.\n'
+        f'Check build/cpimg2 in the repository, then run the workflow again.')
 if DIR != 'none':
     for f in sorted(glob.glob(DIR + '/*.webp')):
         k = os.path.basename(f)[:-5]
@@ -67,4 +76,3 @@ assert all(ord(c) < 128 for c in html), 'non-ascii leaked'
 open(OUT,'w').write(html)
 mb = os.path.getsize(OUT)/1e6
 print(f'built {mb:.2f} MB  ({len(cp)} plastome maps embedded)')
-
