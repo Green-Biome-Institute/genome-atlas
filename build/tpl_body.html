@@ -1,0 +1,537 @@
+<div class="app">
+<nav class="rail">
+  <div class="brand"><span class="mark">Genome Atlas</span><span class="sub">Green Biome Institute</span></div>
+  <button class="navbtn" data-v="overview" aria-current="page"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 13V7m4 6V3m4 10V6m4 7V9"/></svg>Overview</button>
+  <button class="navbtn" data-v="plants"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>Plants<span class="ct" id="ctPlants"></span></button>
+  <button class="navbtn" data-v="plastomes"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2.6"/></svg>Plastomes<span class="ct" id="ctPlast"></span></button>
+  <button class="navbtn" data-v="landscape"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="5" cy="10" r="2.2"/><circle cx="11" cy="5.5" r="1.6"/><circle cx="12" cy="11" r="1.1"/></svg>Landscape</button>
+  <button class="navbtn" data-v="busco"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4h12M2 8h12M2 12h12M6 2v12M10 2v12"/></svg>BUSCO<span class="ct" id="ctBusco"></span></button>
+  <button class="navbtn" data-v="barcode"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3v10M6 3v10M8.5 3v10M11 3v10M13 3v10"/></svg>Barcodes<span class="ct" id="ctBc"></span></button>
+  <button class="navbtn" data-v="tf"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2v12M8 5.5s3-2 5.5-1M8 9.5s-3-2-5.5-1M8 12s3-1.5 5.5-1"/></svg>Regulators<span class="ct" id="ctTf"></span></button>
+  <button class="navbtn" data-v="chem"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6.5 2v4.2L3 12.2A1.2 1.2 0 0 0 4 14h8a1.2 1.2 0 0 0 1-1.8L9.5 6.2V2"/><path d="M5.6 2h4.8M4.9 9.6h6.2"/></svg>Chemistry<span class="ct" id="ctChem"></span></button>
+  <button class="navbtn" data-v="markers"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 8h3.2M10.8 8H14"/><rect x="5.2" y="4.6" width="5.6" height="6.8" rx="1.2"/><path d="M6.9 4.6v6.8M9.1 4.6v6.8"/></svg>Markers<span class="ct" id="ctMk"></span></button>
+  <button class="navbtn" data-v="bloom"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.6"/><path d="M8 2.4v3M8 10.6v3M2.4 8h3M10.6 8h3"/></svg>Bloom year<span class="ct" id="ctBloom"></span></button>
+  <button class="navbtn" data-v="collection"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2.5 5.5h11v8h-11zM5 5.5V3.5h6v2"/></svg>The collection<span class="ct" id="ctColl"></span></button>
+  <button class="navbtn" data-v="notes"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2h6l3 3v9H4z"/><path d="M6 8h5M6 11h3"/></svg>Method &amp; gaps</button>
+  <div class="railfoot">
+    <button class="themebtn" id="themeBtn"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3.2"/><path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/></svg><span id="themeLbl">Theme</span></button>
+    <button class="themebtn" id="luckyBtn"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="2.5" width="11" height="11" rx="2"/><circle cx="6" cy="6" r=".9" fill="currentColor"/><circle cx="10" cy="10" r=".9" fill="currentColor"/></svg>Random plant</button>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ============ OVERVIEW ============ -->
+<section class="view on" id="v-overview">
+  <div class="hero">
+    <div>
+      <p class="eyebrow" id="heroBrow"></p>
+      <h1>@@overview.title.conserving-the-rare-and-endangered@@</h1>
+      <p class="deck">@@overview.deck.making-sure-their-stories-are@@</p>
+      <p class="lede" id="lede"></p>
+    </div>
+    <div class="mosaic" id="mosaic"></div>
+  </div>
+  <div class="statgrid" id="statgrid"></div>
+  <div class="panels">
+    <div class="card panel">
+      <h3>@@overview.heading.how-rare-is-rare@@</h3>
+      <p class="note">@@overview.note.california-rare-plant-rank-1b@@</p>
+      <div id="rankChart"></div>
+    </div>
+    <div class="card panel">
+      <h3>@@overview.heading.the-pipeline-plant-by-plant@@</h3>
+      <p class="note">@@overview.note.six-analysis-stages-each-bar@@</p>
+      <div class="stepline" id="funnel"></div>
+    </div>
+  </div>
+  <div class="panels">
+    <div class="card panel" style="grid-column:1/-1">
+      <h3>@@overview.heading.genome-size-across-the-collection@@</h3>
+      <p class="note">@@overview.note.genome-size-estimated-from-k@@</p>
+      <div class="chartwrap" style="border:0;padding:0;background:none"><canvas id="sizeHist" height="180"></canvas></div>
+    </div>
+  </div>
+  <div class="panels">
+    <div class="card panel" style="grid-column:1/-1">
+      <h3>@@overview.heading.where-this-sits-in-the@@</h3>
+      <p class="note">@@overview.note.two-public-counts-of-what@@</p>
+      <div id="corpus"></div>
+      <p class="foot" id="corpusFoot"></p>
+    </div>
+  </div>
+  <div class="panels">
+    <div class="card panel">
+      <h3>@@overview.heading.families-represented@@</h3>
+      <p class="note">@@overview.note.42-plant-families-click-one@@</p>
+      <div class="rowlist" id="famList"></div>
+    </div>
+    <div class="card panel">
+      <h3>@@overview.heading.notes-on-this-atlas@@</h3>
+      <ul class="pending" id="pending"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANTS ============ -->
+<section class="view" id="v-plants">
+  <div class="vhead">
+    <div><h2>@@plants.title.the-wall@@</h2><p>@@plants.text.every-plant-in-the-project@@</p></div>
+  </div>
+  <div class="toolbar">
+    <input class="ctl" id="q" type="search" placeholder="Search name, common name, family, accession&hellip;" style="min-width:280px;flex:1;max-width:400px">
+    <select class="ctl" id="fFam"><option value="">All families</option></select>
+    <select class="ctl" id="fRank"><option value="">All rarity ranks</option></select>
+    <select class="ctl" id="fHas">
+      <option value="">Everything</option>
+      <option value="released">Publicly released</option>
+      <option value="held">Held until 2027</option>
+      <option value="cp">Has plastome map</option>
+      <option value="cpwait">Plastome circle, awaiting annotation</option>
+      <option value="cpnone">Plastome did not close</option>
+      <option value="chem">Has a chemistry profile</option>
+      <option value="ssr">Has fingerprint markers</option>
+      <option value="asm">Has assembly</option>
+      <option value="busco">Has BUSCO</option>
+      <option value="tf">Has TF profile</option>
+      <option value="failed">Assembly failed</option>
+    </select>
+    <select class="ctl" id="fSort">
+      <option value="name">Sort: name</option>
+      <option value="done">Sort: most complete</option>
+      <option value="gs">Sort: genome size</option>
+      <option value="n50">Sort: N50</option>
+      <option value="busco">Sort: BUSCO complete</option>
+      <option value="cpsize">Sort: plastome size</option>
+      <option value="tf">Sort: transcription factors</option>
+      <option value="chem">Sort: medicinal-family genes</option>
+      <option value="ssrd">Sort: microsatellites per Mb</option>
+      <option value="cpir">Sort: inverted repeat length</option>
+      <option value="rank">Sort: rarity</option>
+    </select>
+    <button class="ctl" id="csvBtn">Export CSV</button>
+    <span class="counting" id="wallCount"></span>
+  </div>
+  <div class="wall" id="wall"></div>
+</section>
+
+<!-- ============ PLASTOMES ============ -->
+<section class="view" id="v-plastomes">
+  <div class="vhead">
+    <div><h2>@@plastomes.title.plastomes@@</h2><p>@@plastomes.text.every-chloroplast-genome-assembled-and@@</p></div>
+  </div>
+
+  <div class="scope" id="cpScope"></div>
+
+  <p class="opt">@@plastomes.text.plate-1@@</p>
+  <h3 class="sec">@@plastomes.heading.one-plastome-at-a-time@@</h3>
+
+  <div class="prof">
+    <div class="profhead">
+      <div class="who"><h4 id="cpName">@@plastomes.heading.select-a-plant@@</h4><div class="sub2" id="cpMeta">No plant selected</div></div>
+      <select class="ctl" id="cpSel" aria-label="Choose a plant" style="max-width:340px"></select>
+    </div>
+    <div class="pstats" id="cpStats"></div>
+    <div id="cpFlag"></div>
+    <div class="ptop">
+      <div class="lab">the molecule, at true scale</div>
+      <div class="scrollx"><svg id="cpDiag" viewBox="0 0 980 232" role="img"></svg></div>
+      <div class="seqs" id="cpSeq"></div>
+    </div>
+    <div class="ptop" id="cpPlate"></div>
+    <div class="plim" id="cpLim"></div>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="opt">@@plastomes.text.plate-2@@</p>
+  <h3 class="sec">@@plastomes.heading.the-whole-set@@</h3>
+  <p class="secsub">@@plastomes.caption.every-plastome-with-an-annotated@@</p>
+  <div class="cppanel">
+    <div class="cplegend">
+      <span><b style="background:var(--lsc)"></b>large single copy</span>
+      <span><b style="background:var(--ir)"></b>inverted repeat (two copies)</span>
+      <span><b style="background:var(--ssc)"></b>short single copy</span>
+    </div>
+    <div class="scrollx"><svg id="cpRibbon" role="img"></svg></div>
+    <p class="foot" id="cpRibbonNote"></p>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="opt">@@plastomes.text.plate-3@@</p>
+  <h3 class="sec">@@plastomes.heading.which-gene-sits-on-which@@</h3>
+  <p class="secsub">@@plastomes.caption.a-plastome-has-four-boundaries@@</p>
+  <div class="cppanel">
+    <div class="scrollx"><svg id="cpCensus" role="img"></svg></div>
+    <p class="foot" id="cpCensusNote"></p>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="opt">@@plastomes.text.plate-4@@</p>
+  <h3 class="sec">@@plastomes.heading.genes-that-come-and-go@@</h3>
+  <p class="secsub">@@plastomes.caption.most-of-a-plastome-is@@</p>
+  <div class="card pad"><div id="cpLoss"></div></div>
+  <p class="foot" id="cpLossFoot"></p>
+
+  <h3 class="sec">@@plastomes.heading.beside-272-published-plastomes@@</h3>
+  <p class="secsub">@@plastomes.caption.these-four-measurements-against-the@@</p>
+  <div class="cppanel">
+    <div class="scrollx"><svg id="cpRef" role="img"></svg></div>
+    <p class="foot" id="cpRefNote"></p>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="opt">@@plastomes.text.plate-5@@</p>
+  <h3 class="sec">@@plastomes.heading.base-composition@@</h3>
+  <p class="secsub">@@plastomes.caption.gc-content-of-every-record@@</p>
+  <div class="cppanel">
+    <div class="scrollx"><svg id="cpGC" role="img"></svg></div>
+    <p class="foot" id="cpGCNote"></p>
+  </div>
+
+  <div class="rule"></div>
+
+  <p class="opt">@@plastomes.text.plate-6@@</p>
+  <h3 class="sec">@@plastomes.heading.the-contact-sheet@@</h3>
+  <p class="secsub">@@plastomes.caption.every-plate-at-once-the@@</p>
+  <div class="toolbar">
+    <div class="seg" id="plMode"><button data-m="plate" aria-pressed="true">Annotated maps</button><button data-m="ring">Schematic rings</button></div>
+    <label class="eyebrow">Order</label>
+    <select class="ctl" id="plSort"><option value="size">By plastome size</option><option value="genes">By gene count</option><option value="ir">By inverted-repeat length</option><option value="family">By family</option><option value="name">By name</option></select>
+    <label class="eyebrow">Size</label>
+    <select class="ctl" id="plSize"><option value="118">Contact sheet</option><option value="150" selected>Plates</option><option value="240">Large</option></select>
+    <span class="counting" id="plastCount"></span>
+  </div>
+  <div class="mxlayout">
+    <div class="chartwrap"><div class="platewall" id="plateWall"></div></div>
+    <div class="side"><div class="card panel" style="padding:16px 18px">
+      <h4>@@plastomes.heading.across-the-set@@</h4><div class="rowlist" id="plastStats"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ LANDSCAPE ============ -->
+<section class="view" id="v-landscape">
+  <div class="vhead">
+    <div><h2>@@landscape.title.genome-landscape@@</h2><p>@@landscape.text.each-circle-is-one-plant@@</p></div>
+  </div>
+  <div class="toolbar">
+    <label class="eyebrow">X</label><select class="ctl" id="axX"></select>
+    <label class="eyebrow">Y</label><select class="ctl" id="axY"></select>
+    <label class="eyebrow">Size</label><select class="ctl" id="axR"></select>
+    <select class="ctl" id="hlFam"><option value="">Highlight a family&hellip;</option></select>
+    <button class="ctl" id="lsReset">Clear selection</button>
+    <span class="counting" id="lsCount"></span>
+  </div>
+  <div class="chartwrap"><canvas id="scatter" height="520"></canvas></div>
+  <div class="toolbar" style="margin-top:14px">
+    <div class="legend" id="lsLegend"></div>
+  </div>
+</section>
+
+<!-- ============ BUSCO ============ -->
+<section class="view" id="v-busco">
+  <div class="vhead">
+    <div><h2>@@busco.title.busco-gene-matrix@@</h2><p>@@busco.text.there-is-a-set-of@@</p><p>@@busco.text.these-are-genes-expected-to@@</p>
+    <p class="callout">@@busco.callout.a-missing-gene-means-busco@@</p>
+    <p style="font-size:13px;color:var(--ink-3);margin-top:8px">@@busco.text.the-strip-above-marks-assemblies@@</p></div>
+  </div>
+  <div class="toolbar">
+    <div class="seg" id="bSet"><button data-s="Viridiplantae" aria-pressed="true">Viridiplantae (425)</button><button data-s="Eukaryota">Eukaryota (255)</button></div>
+    <select class="ctl" id="bSortP"><option value="complete">Plants by completeness</option><option value="barcode">Plants needing a barcode first</option><option value="name">Plants by name</option><option value="family">Plants by family</option></select>
+    <select class="ctl" id="bSortG"><option value="missing">Genes by most missing</option><option value="complete">Genes by most complete</option><option value="id">Genes by ID</option></select>
+    <div class="seg widetog" id="buWide"><button data-w="0" aria-pressed="true">Fit</button><button data-w="1">Labelled</button></div>
+    <div class="legend">
+      <span><i style="background:var(--q-comp)"></i>Complete</span>
+      <span><i style="background:var(--q-dup)"></i>Duplicated</span>
+      <span><i style="background:var(--q-frag)"></i>Fragmented</span>
+      <span><i style="background:var(--q-miss)"></i>Missing</span>
+      <span><i style="background:var(--q-frag)"></i>No barcode yet (top strip)</span>
+    </div>
+  </div>
+  <div class="mxlayout">
+    <div class="chartwrap"><canvas id="buscoCv" height="560"></canvas></div>
+    <div class="side">
+      <div class="card panel" style="padding:16px 18px">
+        <h4>@@busco.heading.hardest-genes-to-recover@@</h4>
+        <div class="rowlist" id="buscoTop"></div>
+      </div>
+      <div class="rowlist" id="buGap"></div>
+    </div>
+  </div>
+
+  <h3 class="sec">@@busco.heading.one-assembly-at-a-time@@</h3>
+  <p class="secsub">@@busco.caption.pick-an-assembly-every-expected@@</p>
+  <div class="prof">
+    <div class="profhead">
+      <div class="who"><h4 id="bupName">@@busco.heading.select-a-plant@@</h4><div class="sub2" id="bupMeta">No plant selected</div></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="seg" id="bupSet"><button data-s="Viridiplantae" aria-pressed="true">Viridiplantae</button><button data-s="Eukaryota">Eukaryota</button></div><select class="ctl" id="bupSel" aria-label="Choose a plant" style="max-width:300px"></select></div>
+    </div>
+    <div class="pstats" id="bupStats"></div>
+    <div class="ptop"><div id="bupBody"></div></div>
+    <div class="plim" id="bupLim"></div>
+  </div>
+</section>
+
+<!-- ============ BARCODE ============ -->
+<section class="view" id="v-barcode">
+  <div class="vhead">
+    <div><h2>@@barcode.title.dna-barcode-primers@@</h2><p>@@barcode.text.a-dna-barcode-is-a@@</p><p>@@barcode.text.each-column-below-is-an@@</p>
+    <p class="callout">@@barcode.callout.this-is-a-search-not@@</p>
+    <p style="font-size:13px;color:var(--ink-3);margin-top:8px">@@barcode.text.six-primers-carry-iupac-ambiguity@@</p></div>
+  </div>
+  <div class="toolbar">
+    <div class="seg" id="bcGrp"></div>
+    <div class="seg widetog" id="bcWide"><button data-w="0" aria-pressed="true">Fit</button><button data-w="1">Labelled</button></div>
+    <span class="counting" id="bcCount"></span>
+  </div>
+  <div class="mxlayout">
+    <div class="chartwrap"><canvas id="bcCv" height="520"></canvas></div>
+    <div class="side">
+      <div class="card panel" style="padding:16px 18px">
+        <h4>@@barcode.heading.exact-match-coverage@@</h4>
+        <div class="rowlist" id="bcTop"></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">@@barcode.heading.one-assembly-at-a-time@@</h3>
+  <p class="secsub">@@barcode.caption.pick-an-assembly-and-see@@</p>
+  <div class="prof">
+    <div class="profhead">
+      <div class="who"><h4 id="bcpName">@@barcode.heading.select-a-plant@@</h4><div class="sub2" id="bcpMeta">No plant selected</div></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select class="ctl" id="bcpSel" aria-label="Choose a plant" style="max-width:300px"></select></div>
+    </div>
+    <div class="pstats" id="bcpStats"></div>
+    <div class="ptop"><div id="bcpBody"></div></div>
+    <div class="plim" id="bcpLim"></div>
+  </div>
+</section>
+
+<!-- ============ BLOOM ============ -->
+<section class="view" id="v-bloom">
+  <div class="vhead">
+    <div><h2>@@bloom.title.the-bloom-year@@</h2><p>@@bloom.text.every-ring-is-one-plant@@</p></div>
+  </div>
+  <div class="toolbar">
+    <label class="eyebrow">Colour</label>
+    <select class="ctl" id="blColor"><option value="family">By family</option><option value="rank">By rarity rank</option><option value="status">By release status</option></select>
+    <label class="eyebrow">Order</label>
+    <select class="ctl" id="blSort"><option value="start">By when they start</option><option value="length">By how long they bloom</option><option value="family">By family</option><option value="name">By name</option></select>
+    <span class="counting" id="bloomCount"></span>
+  </div>
+  <div class="mxlayout">
+    <div class="chartwrap"><canvas id="bloomCv" height="560"></canvas>
+      <div class="legend" id="bloomLegend" style="margin-top:12px"></div></div>
+    <div class="side"><div class="card panel" style="padding:16px 18px">
+      <h4>@@bloom.heading.plants-in-flower-by-month@@</h4><div class="rowlist" id="bloomTop"></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ COLLECTION ============ -->
+<section class="view" id="v-collection">
+  <div class="vhead">
+    <div><h2>@@collection.title.the-collection@@</h2><p>@@collection.text.where-every-plant-came-from@@</p></div>
+  </div>
+  <div id="collBody" class="collbody"></div>
+</section>
+
+<!-- ============ TF ============ -->
+<section class="view" id="v-tf">
+  <div class="vhead">
+    <div><h2>@@tf.title.transcription-factor-families@@</h2><p>@@tf.text.transcription-factors-are-the-genes@@</p></div>
+  </div>
+  <div class="toolbar">
+    <div class="seg" id="tfMode"><button data-m="all" aria-pressed="true">All plants</button><button data-m="Arctostaphylos">Arctostaphylos only</button></div>
+    <select class="ctl" id="tfSortP"><option value="total">Plants by total TFs</option><option value="name">Plants by name</option></select>
+    <div class="seg widetog" id="tfWide"><button data-w="0" aria-pressed="true">Fit</button><button data-w="1">Labelled</button></div>
+    <span class="counting" id="tfCount"></span>
+  </div>
+  <div class="mxlayout">
+    <div class="chartwrap"><canvas id="tfCv" height="560"></canvas></div>
+    <div class="side">
+      <div class="card panel" style="padding:16px 18px">
+        <h4>@@tf.heading.largest-families@@</h4>
+        <div class="rowlist" id="tfTop"></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sec">@@tf.heading.beside-two-finished-genomes@@</h3>
+  <p class="secsub">@@tf.caption.these-families-have-been-counted@@</p>
+  <div class="card pad">
+    <div class="cmphead c4"><span>family</span><span>Arabidopsis</span><span>grape</span><span>this collection</span></div>
+    <div id="tfCmp"></div>
+  </div>
+  <p class="foot" id="tfCmpFoot"></p>
+
+  <h3 class="sec">@@tf.heading.one-plant-at-a-time@@</h3>
+  <p class="secsub">@@tf.caption.pick-a-plant-every-family@@</p>
+  <div class="prof">
+    <div class="profhead">
+      <div class="who"><h4 id="tfpName">@@tf.heading.select-a-plant@@</h4><div class="sub2" id="tfpMeta">No plant selected</div></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select class="ctl" id="tfpSel" aria-label="Choose a plant" style="max-width:300px"></select></div>
+    </div>
+    <div class="pstats" id="tfpStats"></div>
+    <div class="ptop"><div id="tfpBody"></div></div>
+    <div class="plim" id="tfpLim"></div>
+  </div>
+</section>
+
+
+<!-- ============ CHEMISTRY ============ -->
+<section class="view" id="v-chem">
+  <div class="vhead">
+    <div><h2>@@chem.title.the-chemistry-they-carry@@</h2><p>@@chem.text.plants-make-medicines-with-a@@</p><p class="callout">@@chem.callout.these-are-protein-matches-not@@</p></div>
+  </div>
+
+
+  <h3 class="sec">@@chem.heading.every-plant-every-family@@</h3>
+  <p class="secsub">@@chem.caption.one-column-per-plant-one@@</p>
+
+  <div class="toolbar">
+    <span class="eyebrow">Order plants by</span>
+    <div class="seg" id="chemSort"><button data-s="tot" aria-pressed="true">Total matches</button><button data-s="name" aria-pressed="false">Name</button></div>
+    <span class="counting" id="chemCount"></span>
+  </div>
+  <div class="cmx"><div class="inner"><canvas id="chemCv"></canvas></div>
+    <div class="cmxleg">
+      <span>Fewer <span class="ramp"><i style="background:var(--cq1)"></i><i style="background:var(--cq2)"></i><i style="background:var(--cq3)"></i><i style="background:var(--cq4)"></i><i style="background:var(--cq5)"></i><i style="background:var(--cq6)"></i></span> more copies</span>
+      <span><i style="display:inline-block;width:11px;height:11px;border-radius:2px;background:var(--sunken);vertical-align:-1px;margin-right:5px"></i>no match detected</span>
+      <span id="chemGaps" style="color:var(--ink-3)"></span>
+    </div>
+  </div>
+
+  <h3 class="sec">@@chem.heading.one-plant-at-a-time@@</h3>
+  <p class="secsub">@@chem.caption.pick-any-plant-circle-area@@</p>
+  <div class="prof">
+    <div class="profhead">
+      <div class="who"><h4 id="pfName">@@chem.heading.select-a-plant@@</h4><div class="sub2" id="pfMeta">No plant selected</div></div>
+      <select class="ctl" id="pfSel" aria-label="Choose a plant" style="max-width:300px"></select>
+    </div>
+    <div class="bub" id="pfBub"></div>
+    <div class="proffoot" id="pfFoot"></div>
+  </div>
+
+  <h3 class="sec">@@chem.heading.what-characterised-members-of-these@@</h3>
+  <p class="secsub">@@chem.caption.these-explain-the-family-not@@</p>
+  <div class="card pad"><div class="fams" id="fams"></div></div>
+
+  <h3 class="sec">@@chem.heading.how-this-compares-to-plants@@</h3>
+  <p class="secsub">@@chem.caption.these-families-have-been-counted@@</p>
+  <div class="card pad">
+    <div class="cmphead"><span>family</span><span>counted in model plants</span><span>this collection</span></div>
+    <div id="chemCmp"></div>
+  </div>
+  <p class="foot">@@chem.footnote.published-figures-are-gene-counts@@</p>
+
+  <h3 class="sec">@@chem.heading.where-that-machinery-has-a@@</h3>
+  <p class="secsub">@@chem.caption.four-of-these-plants-belong@@</p>
+  <p class="callout">@@chem.callout.these-four-are-literature-not@@</p>
+  <div class="exgrid">
+    <div class="excard a"><div class="tag">Sold in US pharmacies</div><h4>@@chem.heading.frangula-purshiana-ssp-ultramafica@@</h4><p>@@chem.text.this-is-cascara-sagrada-the@@</p></div>
+    <div class="excard b"><div class="tag">EU herbal monograph</div><h4>@@chem.heading.arctostaphylos-36-species@@</h4><p>@@chem.text.bearberry-arctostaphylos-uva-ursi-holds@@</p></div>
+    <div class="excard"><div class="tag">Named for its alkaloid</div><h4>@@chem.heading.berberis-nevinii@@</h4><p>@@chem.text.the-berberine-genus-the-enzyme@@</p></div>
+    <div class="excard"><div class="tag">&ldquo;Holy herb&rdquo;</div><h4>@@chem.heading.eriodictyon-altissimum@@</h4><p>@@chem.text.yerba-santa-long-recorded-as@@</p></div>
+  </div>
+
+</section>
+
+<!-- ============ MARKERS ============ -->
+<section class="view" id="v-markers">
+  <div class="vhead">
+    <div><h2>@@markers.title.fingerprint-markers@@</h2><p>@@markers.text.a-conservation-genome-is-only@@</p></div>
+  </div>
+
+  <div class="funnel" id="mkFunnel"></div>
+  <p class="foot" style="margin-top:10px">@@markers.footnote.the-first-figure-is-every@@</p>
+
+  <h3 class="sec">@@markers.heading.what-one-marker-actually-is@@</h3>
+  <p class="callout">@@markers.callout.designed-not-tested-every-marker@@</p>
+  <p class="secsub">@@markers.caption.a-real-candidate-marker-drawn@@</p>
+  <div class="mkbox">
+    <svg id="mkdiag" viewBox="0 0 900 190" role="img" aria-label="Diagram of an SSR marker: forward primer, repeat tract, reverse primer"></svg>
+    <div class="cap" id="mkcap"></div>
+  </div>
+
+  <h3 class="sec">@@markers.heading.why-the-length-is-the@@</h3>
+  <p class="secsub">@@markers.caption.the-repeat-is-most-of@@</p>
+  <div class="card pad"><div class="alleles" id="alleles"></div></div>
+
+  <h3 class="sec">@@markers.heading.what-one-plant-gives-you@@</h3>
+  <p class="secsub">@@markers.caption.pick-any-plant-finished-so@@</p>
+  <div class="prof">
+    <div class="profhead">
+      <div class="who"><h4 id="spName">@@markers.heading.select-a-plant@@</h4><div class="sub2" id="spMeta">No plant selected</div></div>
+      <select class="ctl" id="spSel" aria-label="Choose a plant" style="max-width:300px"></select>
+    </div>
+    <div class="pstats" id="spStats"></div>
+    <div id="spFlag"></div>
+    <div class="ptop">
+      <div class="lab">its best-ranked marker</div>
+      <svg id="spDiag" viewBox="0 0 900 150" role="img" aria-label="Best-ranked marker for the selected plant"></svg>
+      <div class="seqs" id="spSeq"></div>
+    </div>
+  </div>
+
+  <div class="cols2" style="margin-top:34px">
+    <div>
+      <h3 class="sec" style="margin-top:0">@@markers.heading.sizes-cluster-where-they-should@@</h3>
+      <p class="secsub">@@markers.caption.every-shortlisted-marker-was-filtered@@</p>
+      <div class="card pad"><svg id="hbp" viewBox="0 0 420 200" role="img" aria-label="Distribution of product sizes"></svg></div>
+    </div>
+    <div>
+      <h3 class="sec" style="margin-top:0">@@markers.heading.long-repeats-mean-more-to@@</h3>
+      <p class="secsub">@@markers.caption.the-more-times-a-unit@@</p>
+      <div class="card pad"><svg id="hrep" viewBox="0 0 420 200" role="img" aria-label="Distribution of repeat counts"></svg></div>
+    </div>
+  </div>
+
+  <div class="cols2" style="margin-top:34px">
+    <div>
+      <h3 class="sec" style="margin-top:0">@@markers.heading.the-filter-is-doing-real@@</h3>
+      <p class="secsub">@@markers.caption.two-letter-repeats-dominate-the@@</p>
+      <div class="card pad">
+        <div class="mhead"><span>repeat type</span><span>all repeats found</span><span>the shortlist</span></div>
+        <div id="motifCmp"></div>
+      </div>
+    </div>
+    <div>
+      <h3 class="sec" style="margin-top:0">@@markers.heading.markers-per-plant@@</h3>
+      <p class="secsub">@@markers.caption.how-many-candidate-markers-each@@</p>
+      <div class="card pad"><div class="yield" id="yield"></div></div>
+    </div>
+  </div>
+
+  <h3 class="sec">@@markers.heading.what-they-are-for@@</h3>
+  <div class="exgrid">
+    <div class="excard b plain"><h4>@@markers.heading.did-the-restoration-take@@</h4><p>@@markers.text.plant-500-seedlings-on-a@@</p></div>
+    <div class="excard a plain"><h4>@@markers.heading.is-this-one-population-or@@</h4><p>@@markers.text.two-patches-of-a-rare@@</p></div>
+    <div class="excard plain"><h4>@@markers.heading.where-did-this-stock-come@@</h4><p>@@markers.text.nursery-material-for-restoration-is@@</p></div>
+  </div>
+
+</section>
+
+<!-- ============ NOTES ============ -->
+<section class="view" id="v-notes">
+  <div class="vhead"><div><h2>@@notes.title.method-gaps@@</h2><p>@@notes.text.where-every-number-on-this@@</p></div></div>
+  <div id="notesBody"></div>
+</section>
+
+</main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Plant detail" tabindex="-1">
+  <div class="dclose">
+    <div style="display:flex;gap:6px"><button class="ctl" id="prevP">&larr;</button><button class="ctl" id="nextP">&rarr;</button></div>
+    <div style="display:flex;gap:6px"><button class="ctl" id="citeBtn">Copy citation</button><button class="ctl" id="closeD">Close</button></div>
+  </div>
+  <div class="dbody" id="dbody"></div>
+</aside>
+<div class="tip" id="tip"></div>
+<div class="lightbox" id="lightbox"><img alt="Chloroplast genome map, full size"></div>
