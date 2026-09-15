@@ -76,3 +76,4 @@ assert all(ord(c) < 128 for c in html), 'non-ascii leaked'
 open(OUT,'w').write(html)
 mb = os.path.getsize(OUT)/1e6
 print(f'built {mb:.2f} MB  ({len(cp)} plastome maps embedded)')
+
