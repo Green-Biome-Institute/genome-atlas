@@ -1,0 +1,86 @@
+# Rebuilds the atlas from the master spreadsheet in Google Drive and publishes it.
+#
+# The spreadsheet is NOT stored in this repository. Drive is the single source.
+# This workflow downloads it fresh on every run.
+#
+# One-time setup: Settings -> Secrets and variables -> Actions -> Variables tab
+#   -> New repository variable, named SHEET_ID, set to the long id out of the
+#   spreadsheet's address (the part between /d/ and /edit).
+name: Build and publish atlas
+
+on:
+  workflow_dispatch:        # the Run workflow button
+  push:
+    branches: [main]
+    paths:
+      - 'build/**'
+      - '.github/workflows/build.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install --quiet openpyxl
+
+      - name: Download the master spreadsheet from Drive
+        env:
+          SHEET_ID: ${{ vars.SHEET_ID }}
+        run: |
+          if [ -z "$SHEET_ID" ]; then
+            echo "::error::SHEET_ID is not set. Settings -> Secrets and variables -> Actions"
+            echo "::error::-> Variables -> New repository variable, named SHEET_ID."
+            exit 1
+          fi
+          # -R keeps Drive's own Last-Modified time on the file, so the atlas
+          # reports when the spreadsheet was last edited rather than when it was
+          # downloaded. If Drive sends no such header it falls back to today.
+          curl -sSL -R --fail --max-time 120 \
+            "https://docs.google.com/spreadsheets/d/$SHEET_ID/export?format=xlsx" \
+            -o workbook.xlsx || { echo "::error::Could not reach Drive."; exit 1; }
+          # A sheet that is not shared returns a sign-in HTML page, not a file.
+          # Catch that here rather than letting openpyxl fail with something cryptic.
+          if [ "$(head -c 2 workbook.xlsx)" != "PK" ]; then
+            echo "::error::Drive returned a web page instead of a spreadsheet."
+            echo "::error::The sheet must be shared as 'Anyone with the link can view'."
+            exit 1
+          fi
+          echo "downloaded $(du -h workbook.xlsx | cut -f1)"
+
+      - name: Read the spreadsheet
+        run: python3 build_data.py
+        working-directory: build
+        env:
+          GBI_WORKBOOK: ${{ github.workspace }}/workbook.xlsx
+
+      - name: Assemble the page
+        run: mkdir -p ../site && python3 assemble.py cpimg2 ../site/index.html
+        working-directory: build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
