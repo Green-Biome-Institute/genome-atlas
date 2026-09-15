@@ -337,9 +337,15 @@ function renderCorpus(){
       + '</span></div>';
   };
 
-  // The threat suffix split. Both sides are drawn on the parent's denominator so
-  // the sub-bars nest inside the 1B bar, while the caption gives each suffix's own
-  // share, which is the number that actually says something.
+  // The threat suffix split. The two columns do different jobs, at every row.
+  // Left is the published universe, so the suffix bars are drawn on the parent's
+  // denominator and nest inside the 1B bar: they show how the statewide total splits.
+  // Right is our coverage rate of whatever that row's universe is, so a suffix bar is
+  // drawn on its OWN rank total, matching the caption beneath it. Scaling the right
+  // suffix bars on the parent instead made them nest, but it put the bar and its own
+  // caption on different denominators, and the eye reads the bar. A suffix bar running
+  // longer than the 1B bar above it is correct: coverage of 1B.1 is better than
+  // coverage of 1B overall.
   const sub = (label, note, n, pubN, scaleN) =>
     '<div class="crow csub"><span class="ccn">' + esc(label)
     + '<small>' + esc(note) + '</small></span>'
@@ -347,7 +353,7 @@ function renderCorpus(){
     + (100 * pubN / scaleN).toFixed(1) + '%"></i></span>'
     + '<span class="cvv">' + nf(pubN) + '</span></span>'
     + '<span class="cbar us"><span class="tr"><i style="width:'
-    + Math.max(0.6, 100 * n / scaleN).toFixed(1) + '%"></i></span>'
+    + Math.max(0.6, 100 * n / pubN).toFixed(1) + '%"></i></span>'
     + '<span class="cvv">' + nf(n) + '</span></span></div>'
     + '<div class="crow csub" style="border:0;padding-top:0"><span></span><span></span>'
     + '<span style="font-size:11.5px;color:var(--ink-3)">'
