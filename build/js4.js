@@ -80,7 +80,7 @@ function drawBusco(){
     return `<a class="rowitem" href="${gn.u||'#'}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit" title="${esc(gn.d||'')}">
       <span class="nm">${esc(gn.d || gn.g)}</span><span class="vv">${Math.round(miss*100)}%</span>
       <span class="bb"><i style="width:${(miss*100).toFixed(1)}%;background:var(--q-frag)"></i></span></a>`; }).join('')
-    + `<p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.45">Share of assemblies where the gene is missing or only fragmentary. High values here usually mean a long, repeat-rich gene that short-read drafts struggle to span, not a gene the plant lacks.</p>`;
+    + `<p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.45">${TXT('busco.caption.missing-share')}</p>`;
 }
 (function(){
   const cvs = $('#buscoCv');
